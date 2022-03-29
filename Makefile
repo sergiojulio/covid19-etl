@@ -5,7 +5,7 @@ install:
 	pip install --upgrade pip &&\
 		pip install -r requirements.txt
 
-run: python covid19.py
+run: python ./covid19.py
 
 all: install run
 
