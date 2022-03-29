@@ -12,7 +12,7 @@ class Covid19:
     # args
     def __init__(self, url):
         self.url = url
-        self.covid19 = ""
+        self.covid19 = pd.DataFrame()
 
     @staticmethod
     def extract():
@@ -262,7 +262,8 @@ class Covid19:
             'cuarta_dosis')
 
         # merge covid19_df casos_activos_df
-        covid19_df = pd.merge(covid19_df, vacunacion_tmp, on=['codigo_comuna', 'fecha'], how='left', suffixes=('', '_drop'))
+        covid19_df = pd.merge(covid19_df, vacunacion_tmp, on=['codigo_comuna', 'fecha'], how='left',
+                              suffixes=('', '_drop'))
         covid19_df.drop([col for col in covid19_df.columns if 'drop' in col], axis=1, inplace=True)
 
         # init --- DosisUnica ---
@@ -273,7 +274,8 @@ class Covid19:
             'unica_dosis')
 
         # merge covid19_df casos_activos_df
-        covid19_df = pd.merge(covid19_df, vacunacion_tmp, on=['codigo_comuna', 'fecha'], how='left', suffixes=('', '_drop'))
+        covid19_df = pd.merge(covid19_df, vacunacion_tmp, on=['codigo_comuna', 'fecha'], how='left',
+                              suffixes=('', '_drop'))
         covid19_df.drop([col for col in covid19_df.columns if 'drop' in col], axis=1, inplace=True)
 
         # comuna - paso a paso later
@@ -282,7 +284,6 @@ class Covid19:
         self.covid19 = covid19_df
 
         # https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/input/UC/Positividad%20por%20comuna.csv
-
 
         return
 
@@ -388,7 +389,8 @@ class Covid19:
         vacunacion_df = vacunacion_df[vacunacion_df[columna_glosa] > -1]
 
         # rename campos
-        vacunacion_df.rename(columns={'Codigo comuna': 'codigo_comuna', 'Comuna': 'comuna', 'Fecha': 'fecha', columna_glosa: columna_nombre}, inplace=True)
+        vacunacion_df.rename(columns={'Codigo comuna': 'codigo_comuna', 'Comuna': 'comuna', 'Fecha': 'fecha',
+                                      columna_glosa: columna_nombre}, inplace=True)
 
         vacunacion_df.set_index(['codigo_comuna', 'fecha'])
 
@@ -401,7 +403,7 @@ class Covid19:
         # casos activos comuna loop fechas_df
         for fecha in fechas_df:
 
-            print(fecha)
+            # print(fecha)
 
             fecha_anterior = fecha_anterior == "" and fecha or fecha_anterior
 
@@ -413,8 +415,8 @@ class Covid19:
             startdate = pd.to_datetime(fecha_anterior).date()
             enddate = pd.to_datetime(fecha).date()
 
-            aux_df = vacunacion_df[(vacunacion_df['fecha'] > startdate) &
-                    (vacunacion_df['fecha'] <= enddate)].groupby('codigo_comuna')[columna_nombre].sum().reset_index()
+            aux_df = vacunacion_df[(vacunacion_df['fecha'] > startdate) & (vacunacion_df['fecha'] <= enddate)]\
+                .groupby('codigo_comuna')[columna_nombre].sum().reset_index()
 
             aux_df['fecha'] = fecha
 
