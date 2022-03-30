@@ -375,7 +375,7 @@ class Covid19:
         openfile.close()
     
     @staticmethod
-    def vacunacion(self, fechas_df, file, columna_glosa, columna_nombre):
+    def vacunacion(fechas_df, file, columna_glosa, columna_nombre):
 
         print(columna_glosa)
 
