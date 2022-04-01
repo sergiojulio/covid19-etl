@@ -32,13 +32,20 @@ class Covid19:
         urls = [
             'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/input/Otros/InformacionComunas.csv',
             'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto1/Covid-19_std.csv',
-            'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto19/CasosActivosPorComuna_std.csv',
-            'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto38/CasosFallecidosPorComuna_std.csv',
-            'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto80/vacunacion_comuna_1eraDosis_std.csv',
-            'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto80/vacunacion_comuna_2daDosis_std.csv',
-            'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto80/vacunacion_comuna_Refuerzo_std.csv',
-            'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto80/vacunacion_comuna_4taDosis_std.csv',
-            'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto80/vacunacion_comuna_UnicaDosis_std.csv'
+            'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto19/CasosActivosPorCom' +
+            'una_std.csv',
+            'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto38/CasosFallecidosPor' +
+            'Comuna_std.csv',
+            'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto80/vacunacion_comuna_' +
+            '1eraDosis_std.csv',
+            'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto80/vacunacion_comuna_' +
+            '2daDosis_std.csv',
+            'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto80/vacunacion_comuna_' +
+            'Refuerzo_std.csv',
+            'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto80/vacunacion_comuna_' +
+            '4taDosis_std.csv',
+            'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto80/vacunacion_comuna_' +
+            'UnicaDosis_std.csv'
         ]
 
         print("downloading...")
@@ -112,7 +119,7 @@ class Covid19:
         # loop para validar casos-comunas y obtener numero de casos diarios
         for fecha in fechas_df:
 
-            print(fecha)
+            # print(fecha)
             aux_df = casos_df[casos_df['fecha'] == fecha]
 
             # se copia el daframe de comunas inicializado antes del bucle
@@ -133,7 +140,7 @@ class Covid19:
 
             # debido que el archivo esta incremental se dese restar el día anterio con casos_confirmados
             # hay casos en que da negativo, se supone por ajuste de datos
-            print("casos_diarios...")
+            # print("casos_diarios...")
             if isinstance(temp_df, pd.DataFrame):
                 comunas_copy_df['casos_diarios'] = comunas_copy_df['casos_confirmados'] - \
                     temp_df['casos_confirmados']
@@ -146,7 +153,9 @@ class Covid19:
 
             # add comunas_copy_df to covid19
             # print("append...")
-            covid19_df = covid19_df.append(comunas_copy_df)
+            # covid19_df = covid19_df.append(comunas_copy_df)
+            # pd.concat([df, new_df], axis=0, ignore_index=True)
+            covid19_df = pd.concat([covid19_df, comunas_copy_df], axis=0, ignore_index=True)
 
             # if fecha == "2021-07-02":
             #    break
@@ -423,7 +432,11 @@ class Covid19:
             fecha_anterior = fecha
 
             # print("append...")
-            vacunacion_tmp = vacunacion_tmp.append(aux_df)
+            # /covid19-etl/./covid19.py:426: FutureWarning: The frame.append method is deprecated and will be
+            # removed from pandas in a future version. Use pandas.concat instead.
+
+            # vacunacion_tmp = vacunacion_tmp.append(aux_df)
+            vacunacion_tmp = pd.concat([vacunacion_tmp, aux_df], axis=0, ignore_index=True)
 
             # if fecha == "2021-01-08":
             # return
