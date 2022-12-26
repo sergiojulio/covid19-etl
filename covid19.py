@@ -55,7 +55,7 @@ class Covid19:
             with open('./input/' + url.rsplit('/', 1)[-1], 'wb') as f:
                 f.write(r.content)
 
-        # fin extract
+    # fin extract
 
     def transform(self):
 
