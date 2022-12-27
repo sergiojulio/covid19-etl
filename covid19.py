@@ -137,7 +137,6 @@ class Covid19:
             comunas_copy_df.drop([col for col in covid19_df.columns if 'drop' in col], axis=1, inplace=True)
 
             # return
-
             # debido que el archivo esta incremental se dese restar el día anterio con casos_confirmados
             # hay casos en que da negativo, se supone por ajuste de datos
             # print("casos_diarios...")
