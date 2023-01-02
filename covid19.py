@@ -151,7 +151,6 @@ class Covid19:
             temp_df = comunas_copy_df
 
             # add comunas_copy_df to covid19
-            # print("append...")
             # covid19_df = covid19_df.append(comunas_copy_df)
             # pd.concat([df, new_df], axis=0, ignore_index=True)
             covid19_df = pd.concat([covid19_df, comunas_copy_df], axis=0, ignore_index=True)
