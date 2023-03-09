@@ -10,7 +10,7 @@ import time
 
 
 class Covid19:
-    # args
+
     def __init__(self, url):
         self.url = url
         self.covid19 = pd.DataFrame()
@@ -29,7 +29,6 @@ class Covid19:
                 return
 
         # Si no existen o es mayor se descargan
-        # print("timestamp now:  {0}\ntimestamp file: {1}".format(now_ts, file_ts))
         urls = [
             'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/input/Otros/InformacionComunas.csv',
             'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto1/Covid-19_std.csv',
@@ -120,7 +119,6 @@ class Covid19:
         # loop para validar casos-comunas y obtener numero de casos diarios
         for fecha in fechas_df:
 
-            # print(fecha)
             aux_df = casos_df[casos_df['fecha'] == fecha]
 
             # se copia el daframe de comunas inicializado antes del bucle
