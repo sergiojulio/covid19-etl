@@ -188,7 +188,7 @@ class Covid19:
         covid19_df.drop(
             [col for col in covid19_df.columns if 'drop' in col], axis=1, inplace=True)
 
-        # init --- FallecidosPorComuna ---
+        # init -- FallecidosPorComuna --
         # archivo ya viene con mismas fechas
         file = './input/CasosFallecidosPorComuna_std.csv'
 
