@@ -123,7 +123,6 @@ class Covid19:
 
             # se copia el daframe de comunas inicializado antes del bucle
             comunas_copy_df = comunas_df
-
             # merge: aqui se une todo y si faltan comunas en el casos_df se rellenan por ser left join
             # la intencion de esto es por si faltan comunas en casos_df
             comunas_copy_df = pd.merge(
@@ -288,7 +287,7 @@ class Covid19:
         covid19_df = covid19_df.replace(np.nan, 0)
 
         self.covid19 = covid19_df
-
+        # para que es esto?
         # https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/input/UC/Positividad%20por%20comuna.csv
 
         return
@@ -414,7 +413,6 @@ class Covid19:
             fecha_anterior = fecha_anterior == "" and fecha or fecha_anterior
 
             # query cast fecha para between y sum
-
             # _fecha > fecha[-1] && fecha < fecha
             # mini datafrae del dia
 
