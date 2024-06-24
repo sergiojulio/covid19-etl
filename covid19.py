@@ -60,12 +60,9 @@ class Covid19:
     def transform(self):
 
         print("transform")
-
         # comunas
         file = './input/InformacionComunas.csv'
-
         comunas_df = pd.read_csv(file)
-
         comunas_df.rename(columns={'Comuna': 'comuna',
                                    'Codigo comuna': 'codigo_comuna',
                                    'Region': 'region',
@@ -75,10 +72,8 @@ class Covid19:
                                    }, inplace=True)
 
         comunas_df.set_index('codigo_comuna', inplace=True)
-
         # csv base
         file = './input/Covid-19_std.csv'
-
         casos_df = pd.read_csv(file)
 
         # remove rows unknows places
@@ -118,9 +113,7 @@ class Covid19:
         # loop range dates (230 aprox dias)
         # loop para validar casos-comunas y obtener numero de casos diarios
         for fecha in fechas_df:
-
             aux_df = casos_df[casos_df['fecha'] == fecha]
-
             # se copia el daframe de comunas inicializado antes del bucle
             comunas_copy_df = comunas_df
             # merge: aqui se une todo y si faltan comunas en el casos_df se rellenan por ser left join
@@ -135,7 +128,7 @@ class Covid19:
             comunas_copy_df.drop([col for col in covid19_df.columns if 'drop' in col], axis=1, inplace=True)
 
             # return
-            # debido que el archivo esta incremental se dese restar el día anterio con casos_confirmados
+            # debido que el archivo esta incremental se debe restar el día anterior con casos_confirmados
             # hay casos en que da negativo, se supone por ajuste de datos
             # print("casos_diarios...")
             if isinstance(temp_df, pd.DataFrame):
@@ -144,23 +137,13 @@ class Covid19:
             else:
                 comunas_copy_df['casos_diarios'] = comunas_copy_df['casos_confirmados']
 
-            # casos_diarios negativo dejar en 0?
-
             temp_df = comunas_copy_df
-
             # add comunas_copy_df to covid19
             # covid19_df = covid19_df.append(comunas_copy_df)
             # pd.concat([df, new_df], axis=0, ignore_index=True)
             covid19_df = pd.concat([covid19_df, comunas_copy_df], axis=0, ignore_index=True)
-
-            # if fecha == "2021-07-02":
-            #    break
         # fin loop dates
 
-        # print(covid19_df.head(10))
-        # return
-
-        # init --- CasosActivosPorComuna ---
         # archivo ya viene con mismas fechas
         file = './input/CasosActivosPorComuna_std.csv'
 
@@ -187,12 +170,10 @@ class Covid19:
         covid19_df.drop(
             [col for col in covid19_df.columns if 'drop' in col], axis=1, inplace=True)
 
-        # init -- FallecidosPorComuna --
         # archivo ya viene con mismas fechas
         file = './input/CasosFallecidosPorComuna_std.csv'
 
         fallecidos_df = pd.read_csv(file)
-
         # remove rows unknows places
         fallecidos_df = fallecidos_df[fallecidos_df['Codigo comuna'] > -1]
 
@@ -287,9 +268,6 @@ class Covid19:
         covid19_df = covid19_df.replace(np.nan, 0)
 
         self.covid19 = covid19_df
-        # para que es esto?
-        # https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/input/UC/Positividad%20por%20comuna.csv
-
         return
 
     def load(self):
@@ -343,7 +321,6 @@ class Covid19:
         contador = 1
 
         for row in csvfile:
-
             if lineas == 0:
                 value = insert
             else:
@@ -378,7 +355,7 @@ class Covid19:
             f.write(value)
 
         openfile.close()
-    
+
     @staticmethod
     def vacunacion(fechas_df, file, columna_glosa, columna_nombre):
 
@@ -408,14 +385,9 @@ class Covid19:
         # casos activos comuna loop fechas_df
         for fecha in fechas_df:
 
-            # print(fecha)
-
             fecha_anterior = fecha_anterior == "" and fecha or fecha_anterior
 
-            # query cast fecha para between y sum
-            # _fecha > fecha[-1] && fecha < fecha
             # mini datafrae del dia
-
             startdate = pd.to_datetime(fecha_anterior).date()
             enddate = pd.to_datetime(fecha).date()
 
@@ -426,13 +398,8 @@ class Covid19:
 
             fecha_anterior = fecha
 
-            # print("append...")
-            # /covid19-etl/./covid19.py:426: FutureWarning: The frame.append method is deprecated and will be
-            # removed from pandas in a future version. Use pandas.concat instead.
-
             # vacunacion_tmp = vacunacion_tmp.append(aux_df)
             vacunacion_tmp = pd.concat([vacunacion_tmp, aux_df], axis=0, ignore_index=True)
-
             # if fecha == "2021-01-08":
         # return
         return vacunacion_tmp
